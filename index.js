@@ -4,12 +4,15 @@ const mySql = require('mysql');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const dotenv = require('dotenv');
+dotenv.config();
 
 app.use(cors());
 
-const url = "mongodb+srv://back_api:back1234@cluster0.ilsr2.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const url = process.env.mongoose_url;
 
 app.use(express.json({limit: "1mb"}));
+
 
 mongoose.connect(url, {
     useNewUrlParser: true,
