@@ -30,6 +30,6 @@ app.use("/auth", require("./Routes/Auth_Routes"));
 app.use("/user", require("./Routes/User_Routes"));
 app.use("/request", require("./Routes/Request_Routes"));
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT||8080, () => {
   console.log("Port is running on 8080");
 });
