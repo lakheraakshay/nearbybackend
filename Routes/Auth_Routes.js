@@ -7,9 +7,11 @@ const USER = require("../Schema/AuthSchema");
 dotenv.config();
 const AuthSchema = require("../Schema/AuthSchema");
 router.post("/signup", async (req, res) => {
-  const sing_user = req.body.user;
+  // console.log(req.body)
+  const sing_user = req.body;
+  console.log(sing_user);
   const password = sing_user.password;
-  console.log(password, typeof password);
+  // console.log(password, typeof password);
   const saltRounds = 10;
 
   const hashedPassword = await new Promise((resolve, reject) => {
@@ -48,7 +50,7 @@ router.get("/all", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const user_log_details = req.body.log_details;
+  const user_log_details = req.body;
   const exist_user = await USER.findOne({ email: user_log_details.email });
   console.log(user_log_details, user_log_details.email);
   console.log(exist_user);
