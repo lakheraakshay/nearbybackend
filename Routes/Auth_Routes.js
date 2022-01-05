@@ -34,7 +34,9 @@ router.post("/signup", async (req, res) => {
       city: sing_user.city,
     });
     await new_user.save();
-    res.json({ status: "Success" });
+    res
+      .status(200)
+      .send({ success: true, msg: "registration successfull", new_user: new_user });
   } else {
     res.json({ status: "Already existing" });
   }
@@ -60,9 +62,13 @@ router.post("/login", async (req, res) => {
       exist_user.password
     );
     if (match) {
-      res.json({ status: match, user: exist_user._id });
+      res.status(200).send({
+        success: true,
+        msg: "Successfully Logged In",
+        user: exist_user,
+      });
     } else {
-      res.json({ status: match });
+      res.status(400).send({success:false,msg:"Check Email / Password"})
     }
   } else {
     res.json({ status: "User does not exist." });

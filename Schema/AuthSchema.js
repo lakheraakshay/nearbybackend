@@ -8,6 +8,7 @@ const authSchema = mongoose.Schema({
     type: String,
     require: true,
   },
+  location: { type: Object, lat: { type: Number }, long: { type: Number } },
   email: {
     type: String,
     require: true,
@@ -28,9 +29,9 @@ const authSchema = mongoose.Schema({
     type: String,
     require: true,
   },
-  send_request: [],
-  get_request: [],
-  accepted_request: [],
+  send_request: [{ type: mongoose.Schema.Types.ObjectId, ref: "USER" }],
+  get_request: [{ type: mongoose.Schema.Types.ObjectId, ref: "USER" }],
+  accepted_request: [{ type: mongoose.Schema.Types.ObjectId, ref: "USER" }],
 });
-const USER_AUTH = mongoose.model("ADMINPOST", authSchema);
+const USER_AUTH = mongoose.model("USER", authSchema);
 module.exports = USER_AUTH;

@@ -1,0 +1,90 @@
+{
+	"info": {
+		"_postman_id": "e439d0ed-d469-4b5d-876d-1f0fd17f106f",
+		"name": "nearby",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"testemail1\",\r\n    \"password\":\"test password\",\r\n    \"name\": \"String\",\r\n\"age\": 5,\r\n\"city\": \"Jbp\",\r\n\"country\": \"India\"\r\n\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://nearbybackend.herokuapp.com/auth/signup",
+					"protocol": "https",
+					"host": [
+						"nearbybackend",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"testemail1\",\r\n    \"password\":\"test password\",\r\n    \"name\": \"String\",\r\n\"age\": 5,\r\n\"city\": \"Jbp\",\r\n\"country\": \"India\"\r\n\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://nearbybackend.herokuapp.com/auth/signup",
+					"protocol": "https",
+					"host": [
+						"nearbybackend",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "USers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://nearbybackend.herokuapp.com/user/all",
+					"protocol": "https",
+					"host": [
+						"nearbybackend",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"user",
+						"all"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
