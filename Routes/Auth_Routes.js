@@ -7,39 +7,72 @@ const USER = require("../Schema/AuthSchema");
 dotenv.config();
 const AuthSchema = require("../Schema/AuthSchema");
 router.post("/signup", async (req, res) => {
-  // console.log(req.body)
-  const sing_user = req.body;
-  console.log(sing_user);
-  const password = sing_user.password;
-  // console.log(password, typeof password);
-  const saltRounds = 10;
+  try {
+    const {
+      userName,
+      name,
+      email,
+      age,
+      country,
+      dob,
+      city,
+      state,
+      location,
+      gender,
+      profession,
+      password,
+    } = req.body;
+    let age_group = {
+      age_12_to_18: false,
+      age_19_to_32: false,
+      age_33_to_64: false,
+      age_64_to_100: false,
+    };
+    console.log(age);
+    if (age < 19) {
+      age_group = { ...age_group, age_12_to_18: true };
+    } else if (age < 33) {
+      age_group = { ...age_group, age_19_to_32: true };
+    } else if (age < 65) {
+      age_group = { ...age_group, age_33_to_64: true };
+    } else {
+      age_group = { ...age_group, age_65_to_100: true };
+    }
 
-  const hashedPassword = await new Promise((resolve, reject) => {
-    bcrypt.hash(password, saltRounds, function (err, hash) {
-      if (err) reject(err);
-      resolve(hash);
+    // const password = password;
+    // console.log(password, typeof password);
+    const saltRounds = 10;
+
+    const hashedPassword = await new Promise((resolve, reject) => {
+      bcrypt.hash(password, saltRounds, function (err, hash) {
+        if (err) reject(err);
+        resolve(hash);
+      });
     });
-  });
-  console.log(hashedPassword);
-  const exist_user = await USER.findOne({ email: sing_user.email });
-  // console.log("((((((((((((((((((()))))))))))))))))))", exist_user);
-  if (!exist_user) {
+    console.log(hashedPassword);
+
     const new_user = new USER({
-      userName: sing_user.userName,
-      name: sing_user.name,
-      email: sing_user.email,
+      ...req.body,
+      age_group,
       password: hashedPassword,
-      age: sing_user.age,
-      country: sing_user.country,
-      city: sing_user.city,
     });
     await new_user.save();
-    res
-      .status(200)
-      .send({ success: true, msg: "registration successfull", new_user: new_user });
-  } else {
-    res.json({ status: "Already existing" });
+    res.status(200).send({
+      success: true,
+      msg: "registration successfull",
+      new_user: new_user,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(200).send({
+      success: false,
+      msg: "User already exist with this user name / email",
+    });
   }
+  // console.log(req.body)
+  // const sing_user = req.body;
+  // console.log(sing_user);
+
   // res.json({msg: 'Hey all is good now'});
 });
 router.get("/all", async (req, res) => {
@@ -48,6 +81,7 @@ router.get("/all", async (req, res) => {
     res.status(200).send({ success: true, users });
   } catch (e) {
     console.log(e);
+    res.status(200).send({ success: false, msg: "User Already exist" });
   }
 });
 
@@ -68,7 +102,7 @@ router.post("/login", async (req, res) => {
         user: exist_user,
       });
     } else {
-      res.status(400).send({success:false,msg:"Check Email / Password"})
+      res.status(400).send({ success: false, msg: "Check Email / Password" });
     }
   } else {
     res.json({ status: "User does not exist." });
@@ -96,6 +130,23 @@ router.get("/", async (req, res) => {
     send_request: requests[0].send_request,
     get_request: requests[0].get_request,
   });
+});
+
+router.patch("/update/:user_id", async (req, res) => {
+  try {
+    const data = req.body;
+    console.log(req.params);
+    const updated_user = await USER.findByIdAndUpdate(
+      req.params.user_id,
+      data,
+      { new: true }
+    );
+    res
+      .status(200)
+      .send({ success: true, msg: "User Successfully Updated", updated_user });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 module.exports = router;
