@@ -43,7 +43,7 @@ router.get("/from_distance/:curr_lat/:curr_lon/:range", async (req, res) => {
         near_by.push(user);
       }
     });
-    res.status(200).send({ near_by, users });
+    res.status(200).send({ near_by });
   } catch (e) {
     console.log(e);
   }
