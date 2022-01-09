@@ -2,17 +2,17 @@ const mongoose = require("mongoose");
 const authSchema = mongoose.Schema({
   userName: {
     type: String,
-    require: true,
+    required: true,
     unique: true,
   },
   name: {
     type: String,
-    require: true,
+    required: true,
   },
   location: { type: Object, lat: { type: Number }, long: { type: Number } },
   email: {
     type: String,
-    require: true,
+    required: true,
     unique: true,
   },
   profession: { type: String },
@@ -20,11 +20,11 @@ const authSchema = mongoose.Schema({
 
   age: {
     type: Number,
-    require: true,
+    required: true,
   },
   state: {
     type: String,
-    require: true,
+    required: true,
   },
   dob: {
     type: Object,
@@ -38,20 +38,20 @@ const authSchema = mongoose.Schema({
     age_19_to_32: { type: Boolean, default: false },
     age_33_to_64: { type: Boolean, default: false },
     age_65_to_100: { type: Boolean, default: false },
-    //   required: true,
+    //   requiredd: true,
   },
   city: {
     type: String,
-    require: true,
+    required: true,
   },
   country: {
     type: String,
-    require: true,
+    required: true,
   },
   gender: { type: String, enum: ["MALE", "FEMALE", "OTHER"] },
   password: {
     type: String,
-    require: true,
+    required: true,
   },
   image: { type: String },
   send_request: [{ type: mongoose.Schema.Types.ObjectId, ref: "USER" }],

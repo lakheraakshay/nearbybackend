@@ -5,22 +5,11 @@ const dotenv = require("dotenv");
 const USER = require("../Schema/AuthSchema");
 
 dotenv.config();
-const AuthSchema = require("../Schema/AuthSchema");
 router.post("/signup", async (req, res) => {
   try {
     const {
-      userName,
-      name,
-      email,
       age,
-      country,
-      dob,
-      city,
-      state,
-      location,
-      gender,
-      profession,
-      password,
+      password
     } = req.body;
     let age_group = {
       age_12_to_18: false,
@@ -41,6 +30,7 @@ router.post("/signup", async (req, res) => {
 
     // const password = password;
     // console.log(password, typeof password);
+
     const saltRounds = 10;
 
     const hashedPassword = await new Promise((resolve, reject) => {
@@ -69,11 +59,7 @@ router.post("/signup", async (req, res) => {
       msg: "User already exist with this user name / email",
     });
   }
-  // console.log(req.body)
-  // const sing_user = req.body;
-  // console.log(sing_user);
 
-  // res.json({msg: 'Hey all is good now'});
 });
 router.get("/all", async (req, res) => {
   try {
@@ -148,5 +134,6 @@ router.patch("/update/:user_id", async (req, res) => {
     console.log(e);
   }
 });
+
 
 module.exports = router;

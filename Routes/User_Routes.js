@@ -5,6 +5,16 @@ const dotenv = require("dotenv");
 const USER = require("../Schema/AuthSchema");
 const res = require("express/lib/response");
 
+router.post("/drop", async (req, res) => {
+  try {
+    // await USER.dropCollection("USER", () => {
+    //   console.log("deleted");
+    // });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 router.get("/with_requests", async (req, res) => {
   const user = await USER.find()
     .populate({ path: "get_request" })
