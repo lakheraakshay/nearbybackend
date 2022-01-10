@@ -91,7 +91,7 @@ router.post("/login", async (req, res) => {
       res.status(400).send({ success: false, msg: "Check Email / Password" });
     }
   } else {
-    res.json({ status: "User does not exist." });
+    res.json({ status: "User already exists" });
   }
 });
 

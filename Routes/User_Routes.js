@@ -29,9 +29,9 @@ router.get("/all", async (req, res) => {
     console.log(e);
   }
 });
-router.get("/gender", async (req, res) => {
+router.get("/gender/:gender", async (req, res) => {
   try {
-    const { gender } = req.body;
+    const { gender } = req.params;
     const users = await USER.find({ gender });
     res.status(200).send({ success: true, msg: `All ${gender} USERS`, users });
   } catch (e) {
