@@ -53,4 +53,17 @@ router.get("/one/:user_id", async (req, res) => {
     console.log(e);
   }
 });
+
+router.get("/byage/:from/:to", async (req, res) => {
+  try {
+    const { from, to } = req.params;
+    const users = await USER.find({
+      age: { $gt: from, $lt: to },
+    });
+    // console.log(users)
+    res.status(200).send({ success: true, users });
+  } catch (e) {
+    console.log(e);
+  }
+});
 module.exports = router;
