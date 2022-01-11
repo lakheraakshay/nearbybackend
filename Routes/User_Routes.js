@@ -47,6 +47,20 @@ router.get("/gender/:gender", async (req, res) => {
     console.log(e);
   }
 });
+router.get("/filter/:gender/:from/:to", async (req, res) => {
+  try {
+    const { gender, to, from } = req.params;
+    if (gender == "ALL") {
+      const users = await USER.find({ age: { $gt: from, $lt: to } });
+      res.status(200).send({ success: true, users });
+    } else {
+      const users = await USER.find({ gender, age: { $gt: from, $lt: to } });
+      res.status(200).send({ success: true, users });
+    }
+  } catch (e) {
+    console.log(e);
+  }
+});
 
 router.get("/one/:user_id", async (req, res) => {
   try {
