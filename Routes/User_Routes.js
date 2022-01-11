@@ -32,8 +32,14 @@ router.get("/all", async (req, res) => {
 router.get("/gender/:gender", async (req, res) => {
   try {
     const { gender } = req.params;
-    const users = await USER.find({ gender });
-    res.status(200).send({ success: true, msg: `All ${gender} USERS`, users });
+    if (gender == "MALE" || gender == "FEMALE") {
+      const users = await USER.find({ gender });
+    } else {
+      const users = await USER.find();
+      res
+        .status(200)
+        .send({ success: true, msg: `All ${gender} USERS`, users });
+    }
   } catch (e) {
     console.log(e);
   }
