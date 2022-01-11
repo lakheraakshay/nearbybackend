@@ -36,10 +36,8 @@ router.get("/gender/:gender", async (req, res) => {
       const users = await USER.find({ gender });
     } else {
       const users = await USER.find();
-      res
-        .status(200)
-        .send({ success: true, msg: `All ${gender} USERS`, users });
     }
+    res.status(200).send({ success: true, msg: `All ${gender} USERS`, users });
   } catch (e) {
     console.log(e);
   }
