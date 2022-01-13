@@ -7,10 +7,7 @@ const USER = require("../Schema/AuthSchema");
 dotenv.config();
 router.post("/signup", async (req, res) => {
   try {
-    const {
-      age,
-      password
-    } = req.body;
+    const { age, password } = req.body;
     let age_group = {
       age_12_to_18: false,
       age_19_to_32: false,
@@ -59,7 +56,6 @@ router.post("/signup", async (req, res) => {
       msg: "User already exist with this user name / email",
     });
   }
-
 });
 router.get("/all", async (req, res) => {
   try {
@@ -67,7 +63,7 @@ router.get("/all", async (req, res) => {
     res.status(200).send({ success: true, users });
   } catch (e) {
     console.log(e);
-    res.status(200).send({ success: false, msg: "User Already exist" });
+    res.status(200).send({ success: false, msg: "Error while fetching users" });
   }
 });
 
@@ -91,7 +87,7 @@ router.post("/login", async (req, res) => {
       res.status(400).send({ success: false, msg: "Check Email / Password" });
     }
   } else {
-    res.json({ status: "User already exists" });
+    res.json({ status: "User does not exists", success: false });
   }
 });
 
@@ -134,6 +130,5 @@ router.patch("/update/:user_id", async (req, res) => {
     console.log(e);
   }
 });
-
 
 module.exports = router;
