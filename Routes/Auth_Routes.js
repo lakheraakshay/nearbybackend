@@ -105,10 +105,11 @@ router.post("/login/:email", async (req, res) => {
         msg: "getting data to check",
         data_received: req.body,
         params: req.params,
-        
       });
     } else {
-      res.status(200).send({ success: false, msg: "User Does Not Exists!!" });
+      res
+        .status(200)
+        .send({ success: false, msg: "User Does Not Exists!!", email });
     }
   } catch (e) {
     console.log(e);
