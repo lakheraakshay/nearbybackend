@@ -8,13 +8,19 @@ router.post("/sendrequest", async (req, res) => {
   try {
     const request_body = req.body;
     console.log(request_body);
-    await USER.findOneAndUpdate(
-      { _id: request_body.sending_id },
-      { $addToSet: { send_request: request_body.requested_id } }
+    await USER.findByIdAndUpdate(
+      request_body.sending_id,
+      {
+        $push: { send_request: request_body.requested_id },
+      },
+      { new: true }
     );
-    await USER.findOneAndUpdate(
-      { _id: request_body.requested_id },
-      { $addToSet: { get_request: request_body.sending_id } }
+    await USER.findByIdAndUpdate(
+      request_body.sending_id,
+      {
+        $push: { get_request: request_body.sending_id },
+      },
+      { new: true }
     );
     res.status(200).send({ success: true, msg: "request sent" });
   } catch (e) {
