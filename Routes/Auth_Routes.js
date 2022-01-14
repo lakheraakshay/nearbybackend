@@ -99,12 +99,12 @@ router.post("/login/:email", async (req, res) => {
   try {
     const { email } = req.params;
     const exist_user = await USER.find({ email });
-    if (exist_user) {
+    if (exist_user.length) {
       res.status(200).send({
         success: true,
         msg: "getting data to check",
-       exist_user,
-       email
+        exist_user,
+        email,
       });
     } else {
       res.status(200).send({

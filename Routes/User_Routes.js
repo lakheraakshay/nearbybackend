@@ -67,11 +67,27 @@ router.get("/one/:user_id", async (req, res) => {
     const { user_id } = req.params;
     const user = await USER.findById(user_id)
       .populate({ path: "get_request" })
-      .populate({ path: "send_request" });
+      .populate({ path: "send_request" })
+      .populate({ path: "accepted_request" });
 
     res
       .status(200)
       .send({ success: true, msg: "Successfully fetched details", user });
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.get("/check_request/:curr_user_id/:other_user_id", async (req, res) => {
+  try {
+    const { curr_user_id, other_user_id } = req.params;
+    const users = await USER.findById(curr_user_id);
+    const status = {};
+    const checkSentButPending = users.send_request.find(
+      (id) => id == other_user_id
+    );
+    res.status(200).send({ success: true, checkSentButPending, users });
+    console.log(users);
   } catch (e) {
     console.log(e);
   }

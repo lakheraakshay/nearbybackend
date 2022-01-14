@@ -50,9 +50,26 @@ router.post("/acceptrequest", async (req, res) => {
       { new: true }
     ).exec();
     await USER.findByIdAndUpdate(
+      request_body.requested_id,
+      {
+        $push: { accepted_request: request_body.curent_user_id },
+      },
+
+      { new: true }
+    ).exec();
+
+    await USER.findByIdAndUpdate(
       request_body.curent_user_id,
       {
         $pull: { get_request: request_body.requested_id },
+      },
+
+      { new: true }
+    ).exec();
+    await USER.findByIdAndUpdate(
+      request_body.requested_id,
+      {
+        $pull: { send_request: request_body.curent_user_id },
       },
 
       { new: true }
