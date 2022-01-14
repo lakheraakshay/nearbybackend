@@ -4,9 +4,9 @@ const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const USER = require("../Schema/AuthSchema");
 
-router.post("/sendrequest", async (req, res) => {
+router.post("/sendrequest/:sending_id/:requested_id", async (req, res) => {
   try {
-    const request_body = req.body;
+    const request_body = req.params;
     console.log(request_body);
     const curruser = await USER.findByIdAndUpdate(
       request_body.sending_id,
@@ -16,15 +16,19 @@ router.post("/sendrequest", async (req, res) => {
       { new: true }
     );
     const otheruser = await USER.findByIdAndUpdate(
-      request_body.sending_id,
+      request_body.requested_id,
       {
         $push: { get_request: request_body.sending_id },
       },
       { new: true }
     );
-    res
-      .status(200)
-      .send({ success: true, msg: "request sent", curruser, otheruser });
+    res.status(200).send({
+      success: true,
+      msg: "request sent",
+      curruser,
+      otheruser,
+      body: req.body,
+    });
   } catch (e) {
     console.log(e);
   }
