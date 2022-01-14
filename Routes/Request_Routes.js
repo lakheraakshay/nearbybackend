@@ -8,21 +8,23 @@ router.post("/sendrequest", async (req, res) => {
   try {
     const request_body = req.body;
     console.log(request_body);
-    await USER.findByIdAndUpdate(
+    const curruser = await USER.findByIdAndUpdate(
       request_body.sending_id,
       {
         $push: { send_request: request_body.requested_id },
       },
       { new: true }
     );
-    await USER.findByIdAndUpdate(
+    const otheruser = await USER.findByIdAndUpdate(
       request_body.sending_id,
       {
         $push: { get_request: request_body.sending_id },
       },
       { new: true }
     );
-    res.status(200).send({ success: true, msg: "request sent" });
+    res
+      .status(200)
+      .send({ success: true, msg: "request sent", curruser, otheruser });
   } catch (e) {
     console.log(e);
   }
@@ -50,14 +52,13 @@ router.post("/acceptrequest", async (req, res) => {
   try {
     const request_body = req.body;
     console.log(request_body);
-    await USER.findByIdAndUpdate(
+    const curruser = await USER.findByIdAndUpdate(
       request_body.curent_user_id,
       {
         $push: { accepted_request: request_body.requested_id },
       },
-
       { new: true }
-    ).exec();
+    );
     await USER.findByIdAndUpdate(
       request_body.requested_id,
       {
@@ -65,7 +66,7 @@ router.post("/acceptrequest", async (req, res) => {
       },
 
       { new: true }
-    ).exec();
+    );
 
     await USER.findByIdAndUpdate(
       request_body.curent_user_id,
