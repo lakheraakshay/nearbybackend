@@ -103,8 +103,7 @@ router.post("/login/:email", async (req, res) => {
       res.status(200).send({
         success: true,
         msg: "getting data to check",
-        data_received: req.body,
-        params: req.params,
+       exist_user
       });
     } else {
       res.status(200).send({
