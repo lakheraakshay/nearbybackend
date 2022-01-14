@@ -98,7 +98,7 @@ router.post("/login/remove this", async (req, res) => {
 router.post("/login/:email", async (req, res) => {
   try {
     const { email } = req.params;
-    const exist_user = await USER.findOne({ email });
+    const exist_user = await USER.find({ email });
     if (exist_user) {
       res.status(200).send({
         success: true,
@@ -107,9 +107,12 @@ router.post("/login/:email", async (req, res) => {
         params: req.params,
       });
     } else {
-      res
-        .status(200)
-        .send({ success: false, msg: "User Does Not Exists!!", email,exist_user });
+      res.status(200).send({
+        success: false,
+        msg: "User Does Not Exists!!",
+        email,
+        exist_user,
+      });
     }
   } catch (e) {
     console.log(e);
