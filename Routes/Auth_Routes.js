@@ -53,7 +53,7 @@ router.post("/signup", async (req, res) => {
     console.log(e);
     res.status(200).send({
       success: false,
-      msg: "User already exist with this user name / email",
+      msg: "Error !! Try again later",
     });
   }
 });

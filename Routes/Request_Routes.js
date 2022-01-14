@@ -5,18 +5,21 @@ const dotenv = require("dotenv");
 const USER = require("../Schema/AuthSchema");
 
 router.post("/sendrequest", async (req, res) => {
-  const request_body = req.body;
-  console.log(request_body);
-  await USER.findOneAndUpdate(
-    { _id: request_body.sending_id },
-    { $addToSet: { send_request: request_body.requested_id } }
-  );
-  await USER.findOneAndUpdate(
-    { _id: request_body.requested_id },
-    { $addToSet: { get_request: request_body.sending_id } }
-  );
-
-  res.status(200).send({ success: true, msg: "request sent" });
+  try {
+    const request_body = req.body;
+    console.log(request_body);
+    await USER.findOneAndUpdate(
+      { _id: request_body.sending_id },
+      { $addToSet: { send_request: request_body.requested_id } }
+    );
+    await USER.findOneAndUpdate(
+      { _id: request_body.requested_id },
+      { $addToSet: { get_request: request_body.sending_id } }
+    );
+    res.status(200).send({ success: true, msg: "request sent" });
+  } catch (e) {
+    console.log(e);
+  }
 });
 
 router.post("/deleterequest", async (req, res) => {
