@@ -87,7 +87,12 @@ router.post("/login", async (req, res) => {
       res.status(400).send({ success: false, msg: "Check Email / Password" });
     }
   } else {
-    res.json({ status: "User does not exists", success: false });
+    res.json({
+      status: "User does not exists",
+      success: false,
+      user_log_details,
+      exist_user,
+    });
   }
 });
 
