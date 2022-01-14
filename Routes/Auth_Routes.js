@@ -67,8 +67,8 @@ router.get("/all", async (req, res) => {
   }
 });
 
-router.post("/login_temp", async (req, res) => {
-  const user_log_details = req.body;
+router.post("/login/remove this", async (req, res) => {
+  const user_log_details = req.params;
   const exist_user = await USER.findOne({ email: user_log_details.email });
   console.log(user_log_details, user_log_details.email);
   console.log(exist_user);
@@ -97,12 +97,19 @@ router.post("/login_temp", async (req, res) => {
 });
 router.post("/login/:email", async (req, res) => {
   try {
-    res.status(200).send({
-      success: true,
-      msg: "getting data to check",
-      data_received: req.body,
-      params: req.params,
-    });
+    const { email } = req.params;
+    const exist_user = await USER.findOne({ email });
+    if (exist_user) {
+      res.status(200).send({
+        success: true,
+        msg: "getting data to check",
+        data_received: req.body,
+        params: req.params,
+        
+      });
+    } else {
+      res.status(200).send({ success: false, msg: "User Does Not Exists!!" });
+    }
   } catch (e) {
     console.log(e);
   }
