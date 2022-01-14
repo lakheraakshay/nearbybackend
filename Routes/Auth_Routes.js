@@ -109,7 +109,7 @@ router.post("/login/:email", async (req, res) => {
     } else {
       res
         .status(200)
-        .send({ success: false, msg: "User Does Not Exists!!", email });
+        .send({ success: false, msg: "User Does Not Exists!!", email,exist_user });
     }
   } catch (e) {
     console.log(e);
