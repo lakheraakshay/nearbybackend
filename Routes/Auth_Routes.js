@@ -120,6 +120,8 @@ router.post("/login/:email", async (req, res) => {
     console.log(e);
   }
 });
+
+
 router.get("/", async (req, res) => {
   const all = await user.find();
   // console.log(all);
