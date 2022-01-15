@@ -54,6 +54,7 @@ router.post("/signup", async (req, res) => {
     res.status(200).send({
       success: false,
       msg: "Error !! Try again later",
+      error: e,
     });
   }
 });
