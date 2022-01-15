@@ -20,7 +20,7 @@ const authSchema = mongoose.Schema({
 
   age: {
     type: Number,
-    required: true,
+    // required: true,
   },
   state: {
     type: String,

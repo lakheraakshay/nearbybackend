@@ -8,6 +8,7 @@ dotenv.config();
 router.post("/signup", async (req, res) => {
   try {
     const { age, password } = req.body;
+    res.status(200).send({ success: true, body: req.body });
     let age_group = {
       age_12_to_18: false,
       age_19_to_32: false,
