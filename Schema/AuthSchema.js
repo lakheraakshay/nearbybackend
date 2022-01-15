@@ -53,6 +53,10 @@ const authSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  chat:[{
+    secondPerson:{ type: mongoose.Schema.Types.ObjectId, ref: "USER" },
+    message:{type:mongoose.Schema.Types.ObjectId, ref: "MESSAGE"}
+  }],
   image: { type: String },
   send_request: [{ type: mongoose.Schema.Types.ObjectId, ref: "USER" }],
   get_request: [{ type: mongoose.Schema.Types.ObjectId, ref: "USER" }],

@@ -28,7 +28,7 @@ router.post("/sendrequest/:sending_id/:requested_id", async (req, res) => {
       curruser,
       otheruser,
       body: req.body,
-      params:req.params
+      params: req.params,
     });
   } catch (e) {
     console.log(e);

@@ -30,6 +30,7 @@ app.use("/auth", require("./Routes/Auth_Routes"));
 app.use("/user", require("./Routes/User_Routes"));
 app.use("/request", require("./Routes/Request_Routes"));
 app.use("/location", require("./Routes/Location_Routes"));
+app.use("/message",require("./Routes/Message"))
 
 app.listen(process.env.PORT || 5001, () => {
   console.log("Port is running on 5000");
