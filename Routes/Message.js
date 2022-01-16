@@ -70,13 +70,17 @@ router.get("/all/:id", async (req, res) => {
   }
 });
 
-router.get("/of_one_chat/:curr_user/:second_user/:message_id",async(req,res)=>{
-    try{
-        const {curr_user,second_user,message_id} = req.params
-// if(message_id==nul)
-            //    const user=await USER.findById()
-    }catch(e){console.log(e)}
-})
-
+router.get(
+  "/of_one_chat/:curr_user/:second_user/:message_id",
+  async (req, res) => {
+    try {
+      const { curr_user, second_user, message_id } = req.params;
+      // if(message_id==nul)
+      //    const user=await USER.findById()
+    } catch (e) {
+      console.log(e);
+    }
+  }
+);
 
 module.exports = router;

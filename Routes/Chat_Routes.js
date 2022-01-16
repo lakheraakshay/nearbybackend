@@ -18,4 +18,23 @@ router.get("/members/:curr_id", async (req, res) => {
   }
 });
 
+router.get("/message_id/:curr_user/:other_user", async (req, res) => {
+  try {
+    const { curr_user, other_user } = req.params;
+    let findIt = 5;
+    const user = await USER.findById(curr_user);
+    const filterit = user.chat.find((item) => item.secondPerson == other_user);
+    if (filterit == undefined) {
+      res.status(200).send({ success: true, messageId: null });
+    }else{
+
+        res.status(200).send({ success: true, messageId: filterit.message });
+    }
+    // console.log(filterit);
+
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 module.exports = router;
