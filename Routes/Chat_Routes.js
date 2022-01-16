@@ -26,12 +26,11 @@ router.get("/message_id/:curr_user/:other_user", async (req, res) => {
     const filterit = user.chat.find((item) => item.secondPerson == other_user);
     if (filterit == undefined) {
       res.status(200).send({ success: true, messageId: null });
-    }else{
-
-        res.status(200).send({ success: true, messageId: filterit.message });
+    } else {
+      const messages = await MESSAGE.findById(filterit.message);
+      res.status(200).send({ success: true, messages: messages.message });
     }
     // console.log(filterit);
-
   } catch (e) {
     console.log(e);
   }
