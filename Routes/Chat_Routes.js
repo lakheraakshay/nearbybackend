@@ -28,7 +28,13 @@ router.get("/message_id/:curr_user/:other_user", async (req, res) => {
       res.status(200).send({ success: true, messageId: null });
     } else {
       const messages = await MESSAGE.findById(filterit.message);
-      res.status(200).send({ success: true, messages: messages.message });
+      res
+        .status(200)
+        .send({
+          success: true,
+          messageId: filterit.message,
+          messages: messages.message,
+        });
     }
     // console.log(filterit);
   } catch (e) {
