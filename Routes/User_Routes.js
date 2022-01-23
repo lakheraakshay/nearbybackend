@@ -103,7 +103,7 @@ router.patch("/edit/:id", async (req, res) => {
   }
 });
 
-router.get("/location/:lon/:lat", async (req, res) => {
+router.get("/location/:id/:lon/:lat", async (req, res) => {
   // const options = {
   //   location_3: {
   //     $near: {
@@ -113,14 +113,15 @@ router.get("/location/:lon/:lat", async (req, res) => {
   //   },
   // };
   // const data = await USER.find(options);
-  const { lon, lat } = req.params;
+  const { lon, lat, id } = req.params;
   const data = await USER.find({
-    location_3: {
+
+    location: {
       $near: {
         $geometry: { type: "Point", coordinates: [lon, lat] },
       }, //long,lat
     },
-  });
+  }); 
   res.status(200).send({ data });
 });
 router.get("/check_request/:curr_user_id/:other_user_id", async (req, res) => {

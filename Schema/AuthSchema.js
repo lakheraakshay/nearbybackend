@@ -9,7 +9,7 @@ const authSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  location: { type: Object, lat: { type: Number }, long: { type: Number } },
+  // location: { type: Object, lat: { type: Number }, long: { type: Number } },
   email: {
     type: String,
     required: true,
@@ -63,16 +63,14 @@ const authSchema = mongoose.Schema({
   send_request: [{ type: mongoose.Schema.Types.ObjectId, ref: "USER" }],
   get_request: [{ type: mongoose.Schema.Types.ObjectId, ref: "USER" }],
   accepted_request: [{ type: mongoose.Schema.Types.ObjectId, ref: "USER" }],
-  location_2: {
-    type: Object,
-  },
-  location_3: {
+
+  location: {
     type: {
       type: String,
     },
     coordinates: { type: [Number] },
   },
 });
-authSchema.index({ location_3: "2dsphere" });
+authSchema.index({ location: "2dsphere" });
 const USER_AUTH = mongoose.model("USER", authSchema);
 module.exports = USER_AUTH;
