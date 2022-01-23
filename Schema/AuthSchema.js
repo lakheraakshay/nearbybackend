@@ -53,14 +53,26 @@ const authSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  chat:[{
-    secondPerson:{ type: mongoose.Schema.Types.ObjectId, ref: "USER" },
-    message:{type:mongoose.Schema.Types.ObjectId, ref: "MESSAGE"}
-  }],
+  chat: [
+    {
+      secondPerson: { type: mongoose.Schema.Types.ObjectId, ref: "USER" },
+      message: { type: mongoose.Schema.Types.ObjectId, ref: "MESSAGE" },
+    },
+  ],
   image: { type: String },
   send_request: [{ type: mongoose.Schema.Types.ObjectId, ref: "USER" }],
   get_request: [{ type: mongoose.Schema.Types.ObjectId, ref: "USER" }],
   accepted_request: [{ type: mongoose.Schema.Types.ObjectId, ref: "USER" }],
+  location_2: {
+    type: Object,
+  },
+  location_3: {
+    type: {
+      type: String,
+    },
+    coordinates: { type: [Number] },
+  },
 });
+authSchema.index({ location_3: "2dsphere" });
 const USER_AUTH = mongoose.model("USER", authSchema);
 module.exports = USER_AUTH;

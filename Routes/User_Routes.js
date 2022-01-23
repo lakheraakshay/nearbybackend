@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
 const USER = require("../Schema/AuthSchema");
 const res = require("express/lib/response");
+const USER_AUTH = require("../Schema/AuthSchema");
+const { LONG } = require("mysql/lib/protocol/constants/types");
 
 router.post("/drop", async (req, res) => {
   try {
@@ -24,6 +26,15 @@ router.get("/with_requests", async (req, res) => {
 router.get("/all", async (req, res) => {
   try {
     const user = await USER.find();
+    res.status(200).send({ success: true, user });
+  } catch (e) {
+    console.log(e);
+  }
+});
+router.get("/all/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await USER.find({ _id: { $ne: id } });
     res.status(200).send({ success: true, user });
   } catch (e) {
     console.log(e);
@@ -77,7 +88,41 @@ router.get("/one/:user_id", async (req, res) => {
     console.log(e);
   }
 });
+// router.get("/")
+router.patch("/edit/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const update = await USER.findByIdAndUpdate(
+      id,
+      { ...req.body },
+      { new: true }
+    );
+    res.status(200).send({ success: true, update });
+  } catch (e) {
+    console.log(e);
+  }
+});
 
+router.get("/location", async (req, res) => {
+  // const options = {
+  //   location_3: {
+  //     $near: {
+  //       // $centerSphere: [[79.961582, 23.233623], 15 / 3963.2],
+  //       $centerSphere: [[40, 40], 15 / 3963.2],
+  //     },
+  //   },
+  // };
+  // const data = await USER.find(options);
+
+  const data = await USER.find({
+    location_3: {
+      $near: {
+        $geometry: { type: "Point", coordinates: [10, 10] },
+      }, //long,lat
+    },
+  });
+  res.status(200).send({ data });
+});
 router.get("/check_request/:curr_user_id/:other_user_id", async (req, res) => {
   try {
     const { curr_user_id, other_user_id } = req.params;

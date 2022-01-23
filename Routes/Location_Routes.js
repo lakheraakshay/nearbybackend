@@ -52,4 +52,20 @@ function toRad(Value) {
   return (Value * Math.PI) / 180;
 }
 
+router.get("/nearby",async(req,res)=>{
+  try{
+    const {id}=req.params
+    const {lat,lon}=req.body
+    const options = {
+      location: {
+          $geoWithin: {
+              $centerSphere: [[77.4520708, 28.68467], 15 / 3963.2]
+          }
+      }
+  }
+  const users=await USER.find(options)
+  res.status(200).send({success:true,users})
+  }catch(e){console.log(e)}
+})
+
 module.exports = router;

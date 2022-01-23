@@ -6,19 +6,18 @@ const USER = require("../Schema/AuthSchema");
 
 router.post("/sendrequest/:sending_id/:requested_id", async (req, res) => {
   try {
-    const request_body = req.params;
-    console.log(request_body);
+    const { sending_id, requested_id } = req.params;
     const curruser = await USER.findByIdAndUpdate(
-      request_body.sending_id,
+      sending_id,
       {
-        $push: { send_request: request_body.requested_id },
+        $push: { send_request: requested_id },
       },
       { new: true }
     );
     const otheruser = await USER.findByIdAndUpdate(
-      request_body.requested_id,
+      requested_id,
       {
-        $push: { get_request: request_body.sending_id },
+        $push: { get_request: sending_id },
       },
       { new: true }
     );
