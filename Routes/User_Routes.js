@@ -116,7 +116,7 @@ router.get("/location/:id/:lon/:lat", async (req, res) => {
   const { lon, lat, id } = req.params;
   const data = await USER.find({
 
-    location: {
+    location_3: {
       $near: {
         $geometry: { type: "Point", coordinates: [lon, lat] },
       }, //long,lat

@@ -64,13 +64,16 @@ const authSchema = mongoose.Schema({
   get_request: [{ type: mongoose.Schema.Types.ObjectId, ref: "USER" }],
   accepted_request: [{ type: mongoose.Schema.Types.ObjectId, ref: "USER" }],
 
-  location: {
+  location_3: {
     type: {
       type: String,
+      default: "Point",
     },
     coordinates: { type: [Number] },
   },
 });
 authSchema.index({ location: "2dsphere" });
+// authSchema.createIndex({ location: "2dsphere" });
+// mongoose.authSchema.createIndex({ location: "2dsphere" });
 const USER_AUTH = mongoose.model("USER", authSchema);
 module.exports = USER_AUTH;
