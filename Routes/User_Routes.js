@@ -118,7 +118,7 @@ router.get("/location/:id/:lon/:lat/:quantity", async (req, res) => {
         spherical: true,
       },
     },
-    { $limit: quantity },
+    { $limit: parseInt(quantity) },
   ]);
   res.status(200).send({ data });
 });
