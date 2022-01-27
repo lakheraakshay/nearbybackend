@@ -104,26 +104,76 @@ router.patch("/edit/:id", async (req, res) => {
 });
 
 router.get("/location/:id/:lon/:lat", async (req, res) => {
-  // const options = {
-  //   location_3: {
-  //     $near: {
-  //       // $centerSphere: [[79.961582, 23.233623], 15 / 3963.2],
-  //       $centerSphere: [[40, 40], 15 / 3963.2],
-  //     },
-  //   },
-  // };
-  // const data = await USER.find(options);
   const { lon, lat, id } = req.params;
-  const data = await USER.find({
-
-    location_3: {
-      $near: {
-        $geometry: { type: "Point", coordinates: [lon, lat] },
-      }, //long,lat
+  const fl_lon = parseFloat(lon);
+  const fl_lat = parseFloat(lat);
+  console.log(fl_lon, fl_lat, "\n\n\n<<<<<<<<<<<<<");
+  const data = await USER.aggregate([
+    {
+      $geoNear: {
+        near: { type: "Point", coordinates: [fl_lon, fl_lat] },
+        distanceField: "dist.calculated",
+        //  maxDistance: 1000,
+        includeLocs: "dist.location",
+        spherical: true,
+      },
     },
-  }); 
+    { $limit: 40 },
+  ]);
   res.status(200).send({ data });
 });
+
+// router.get("/location/:id/:lon/:lat", async (req, res) => {
+// const options = {
+//   location_3: {
+//     $near: {
+//       // $centerSphere: [[79.961582, 23.233623], 15 / 3963.2],
+//       $centerSphere: [[40, 40], 15 / 3963.2],
+//     },
+//   },
+// };
+// const data = await USER.find(options);
+// const { lon, lat, id } = req.params;
+// const fl_lon = parseFloat(lon);
+// const fl_lat = parseFloat(lat);
+// console.log(fl_lon, fl_lat, "\n\n\n<<<<<<<<<<<<<");
+// const data = await USER.aggregate([
+// {
+// location_3: {
+// $near: {
+//   $geometry: { type: "Point", coordinates: [lon, lat] },
+//   // distanceField: "dist.calculated",
+//   // spherical: true
+// }, //long,lat
+
+// ---------
+// $geoNear: {
+//   near: { type: "Point", coordinates: [lon, lat] },
+//   distanceField: "dist.calculated",
+//   // maxDistance: 2,
+//   query: { category: "GeoJSON" },
+//   includeLocs: "dist.location",
+//   spherical: true,
+// },
+
+// USER.aggregate([
+// {
+//   $geoNear: {
+//     near: { type: "Point", coordinates: [fl_lon, fl_lat] },
+//     distanceField: "dist.calculated",
+//     //  maxDistance: ,
+//     includeLocs: "dist.location",
+//     spherical: true,
+//   },
+// },
+// { $limit: 20 },
+// ]);
+
+// },
+// ]);
+// res.status(200).send({ data });
+// });
+
 router.get("/check_request/:curr_user_id/:other_user_id", async (req, res) => {
   try {
     const { curr_user_id, other_user_id } = req.params;
