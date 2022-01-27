@@ -103,8 +103,8 @@ router.patch("/edit/:id", async (req, res) => {
   }
 });
 
-router.get("/location/:id/:lon/:lat", async (req, res) => {
-  const { lon, lat, id } = req.params;
+router.get("/location/:id/:lon/:lat/:quantity", async (req, res) => {
+  const { lon, lat, id, quantity } = req.params;
   const fl_lon = parseFloat(lon);
   const fl_lat = parseFloat(lat);
   console.log(fl_lon, fl_lat, "\n\n\n<<<<<<<<<<<<<");
@@ -118,7 +118,7 @@ router.get("/location/:id/:lon/:lat", async (req, res) => {
         spherical: true,
       },
     },
-    { $limit: 40 },
+    { $limit: quantity },
   ]);
   res.status(200).send({ data });
 });
