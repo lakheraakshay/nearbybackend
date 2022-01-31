@@ -10,28 +10,28 @@ io.on("connection", (socket) => {
   });
   socket.on("disconnect", function () {
     console.log("user disconnected");
-    // socket.disconnect(chatId);
   });
   socket.on("OneToOneChat", async (data) => {
     try {
-      if (data.message_id == undefined || data.message_id == null) {
+      if (data.messageId == undefined || data.messageId == null) {
       } else {
-        socket.join(message_id);
-
+        socket.join(messageId);
         await MESSAGE.findByIdAndUpdate(
-          message_id,
+          messageId,
           {
             $push: { message },
           },
           { new: true }
         );
-
-        io.sockets.in(message_id).emit("messageFromOne", {
+        io.sockets.in(messageId).emit("messageFromOne", {
           message: { ...data },
-          chatId,
-          socket: socket.id,
         });
       }
+      socket.on("getPrivatePreviousChat", async (data) => {
+        const messages = await MESSAGE.findById(data.messageId);
+        socket.join(messageId);
+        io.sockets.in(messageId).emit("initialMessage", messages);
+      });
     } catch (e) {
       console.log(e);
     }
