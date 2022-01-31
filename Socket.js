@@ -1,5 +1,5 @@
 const express = require("express");
-const app = require("../index");
+const app = require("./index");
 // const passport = require('passport');
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
