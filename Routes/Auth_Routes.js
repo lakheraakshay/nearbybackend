@@ -56,6 +56,7 @@ router.post("/signup", async (req, res) => {
       success: false,
       msg: "Error !! Try again later",
       error: e,
+      bodyData:req.body
     });
   }
 });
