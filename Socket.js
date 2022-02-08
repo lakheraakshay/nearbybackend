@@ -3,7 +3,7 @@ const app = require("./index");
 // const passport = require('passport');
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
-
+const MESSAGE = require("./Schema/MESSAGE");
 io.on("connection", (socket) => {
   socket.on("connection", () => {
     console.log("connection reveived");
@@ -12,32 +12,86 @@ io.on("connection", (socket) => {
     console.log("user disconnected");
   });
   socket.on("OneToOneChat", async (data) => {
+    console.log(data, "one to one chat");
     try {
       if (data.messageId == undefined || data.messageId == null) {
-      } else {
-        socket.join(messageId);
-        await MESSAGE.findByIdAndUpdate(
-          messageId,
+        console.log("if one to one chat");
+        const { firstPerson, secondPerson, message } = data;
+        io.sockets.in("61f79790a1ca9046998104c6").emit("messageFromOne", {
+          message: message,
+        });
+        const createChat = new MESSAGE({
+          user_one: firstPerson,
+          user_two: secondPerson,
+          message,
+        });
+        await createChat.save();
+        await USER.findByIdAndUpdate(
+          firstPerson,
           {
-            $push: { message },
+            $push: {
+              chat: { secondPerson: secondPerson, message: createChat._id },
+            },
           },
           { new: true }
         );
-        io.sockets.in(messageId).emit("messageFromOne", {
+        await USER.findByIdAndUpdate(
+          secondPerson,
+          {
+            $push: {
+              chat: { secondPerson: firstPerson, message: createChat._id },
+            },
+          },
+          { new: true }
+        );
+      } else {
+        console.log("else one to one chata");
+        socket.join("61f79790a1ca9046998104c6");
+        const modal = await MESSAGE.findByIdAndUpdate(
+          "61f79790a1ca9046998104c6",
+          {
+            $push: {
+              message: {
+                sender_id: "61f79698a1ca9046998104ba",
+                receiver_id: "61f7970ab71d317a22272fc9",
+                text: "First Message from ddakshay",
+
+                _id: "61f7b426ce257a1ab2a12911",
+              },
+            },
+          }
+          // { new: true },
+        );
+        console.log(modal, "<<<<");
+        // const checkMsg = await MESSAGE.findByIdAndUpdate(
+        //   "61f79790a1ca9046998104c6",
+        //   {
+        //     // $push: { message },
+        //     $push: { message: "hello" },
+        //   },
+        //   { new: true }
+        // );
+        // console.log(checkMsg, "<<<check message");
+        // io.sockets.in(messageId).emit("messageFromOne", {
+        io.sockets.in("61f79790a1ca9046998104c6").emit("messageFromOne", {
           message: { ...data },
         });
       }
-      socket.on("getPrivatePreviousChat", async (data) => {
-        const messages = await MESSAGE.findById(data.messageId);
-        socket.join(messageId);
-        io.sockets.in(messageId).emit("initialMessage", messages);
-      });
     } catch (e) {
       console.log(e);
     }
   });
+  socket.on("getPrivatePreviousChat", async (data) => {
+    console.log("Get Previous message");
+    // const messages = await MESSAGE.findById(data.messageId);
+    const messages = await MESSAGE.findById("61f79790a1ca9046998104c6");
+    // socket.join(messageId);
+    socket.join("61f79790a1ca9046998104c6");
+    // io.sockets.in(messageId).emit("initialMessage", messages);
+    io.sockets.in("61f79790a1ca9046998104c6").emit("initialMessage", messages);
+  });
 });
 
-app.listen(process.env.PORT || 5001, () => {
+server.listen(process.env.PORT || 5001, () => {
   console.log("Port is running on 5000");
 });
