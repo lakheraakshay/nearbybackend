@@ -51,13 +51,7 @@ io.on("connection", (socket) => {
           "61f79790a1ca9046998104c6",
           {
             $push: {
-              message: {
-                sender_id: "61f79698a1ca9046998104ba",
-                receiver_id: "61f7970ab71d317a22272fc9",
-                text: "First Message from ddakshay",
-
-                _id: "61f7b426ce257a1ab2a12911",
-              },
+              message: data,
             },
           }
           // { new: true },
