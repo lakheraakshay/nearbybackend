@@ -48,6 +48,7 @@ const authSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  cover_images: { type: Array },
   gender: { type: String, enum: ["MALE", "FEMALE", "OTHER"] },
   password: {
     type: String,

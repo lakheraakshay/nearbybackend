@@ -14,16 +14,20 @@ io.on("connection", (socket) => {
   socket.on("OneToOneChat", async (data) => {
     console.log(data, "one to one chat");
     try {
-      if (data.messageId == undefined || data.messageId == null) {
+      const { firstPerson, secondPerson, message, messageId } = data;
+      if (messageId == undefined || messageId == null) {
         console.log("if one to one chat");
-        const { firstPerson, secondPerson, message } = data;
-        io.sockets.in("61f79790a1ca9046998104c6").emit("messageFromOne", {
-          message: message,
-        });
+
         const createChat = new MESSAGE({
           user_one: firstPerson,
           user_two: secondPerson,
           message,
+        });
+        // io.sockets.in("61f79790a1ca9046998104c6").emit("messageFromOne", {
+        //   message: message,
+        // });
+        io.sockets.in(createChat._id).emit("messageFromOne", {
+          message: message,
         });
         await createChat.save();
         await USER.findByIdAndUpdate(
@@ -46,16 +50,26 @@ io.on("connection", (socket) => {
         );
       } else {
         console.log("else one to one chata");
-        socket.join("61f79790a1ca9046998104c6");
+        // socket.join("61f79790a1ca9046998104c6");
+        socket.join(messageId);
         const modal = await MESSAGE.findByIdAndUpdate(
-          "61f79790a1ca9046998104c6",
+          messageId,
           {
             $push: {
               message: data.message,
             },
-          }
-          // { new: true },
+          },
+          { new: true }
         );
+        // const modal = await MESSAGE.findByIdAndUpdate(
+        //   "61f79790a1ca9046998104c6",
+        //   {
+        //     $push: {
+        //       message: data.message,
+        //     },
+        //   }
+        //   // { new: true },
+        // );
         console.log(modal, "<<<<");
         // const checkMsg = await MESSAGE.findByIdAndUpdate(
         //   "61f79790a1ca9046998104c6",
@@ -67,9 +81,12 @@ io.on("connection", (socket) => {
         // );
         // console.log(checkMsg, "<<<check message");
         // io.sockets.in(messageId).emit("messageFromOne", {
-        io.sockets.in("61f79790a1ca9046998104c6").emit("messageFromOne", {
+        io.sockets.in(messageId).emit("messageFromOne", {
           message: { ...data },
         });
+        // io.sockets.in("61f79790a1ca9046998104c6").emit("messageFromOne", {
+        //   message: { ...data },
+        // });
       }
     } catch (e) {
       console.log(e);
