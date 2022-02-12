@@ -56,7 +56,7 @@ router.post("/signup", async (req, res) => {
       success: false,
       msg: "Error !! Try again later",
       error: e,
-      bodyData: req.body,
+      bodyData:req.body
     });
   }
 });
@@ -122,6 +122,7 @@ router.post("/login/:email", async (req, res) => {
   }
 });
 
+
 router.get("/", async (req, res) => {
   const all = await user.find();
   // console.log(all);
@@ -147,21 +148,16 @@ router.get("/", async (req, res) => {
 
 router.patch("/update/:user_id", async (req, res) => {
   try {
-    const data = req.body;
-
+    const {data} = req.body;
     console.log(req.params);
     const updated_user = await USER.findByIdAndUpdate(
       req.params.user_id,
-      { ...data },
+      data,
       { new: true }
     );
-    res.status(200).send({
-      success: true,
-      msg: "User Successfully Updated",
-      updated_user,
-      params: req.params.user_id,
-      data,
-    });
+    res
+      .status(200)
+      .send({ success: true, msg: "User Successfully Updated", updated_user });
   } catch (e) {
     console.log(e);
   }
