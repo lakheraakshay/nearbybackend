@@ -152,7 +152,7 @@ router.patch("/update/:user_id", async (req, res) => {
     console.log(req.params);
     const updated_user = await USER.findByIdAndUpdate(
       req.params.user_id,
-      {...data},
+      { userName: "akshaylakhera92" },
       { new: true }
     );
     res.status(200).send({
