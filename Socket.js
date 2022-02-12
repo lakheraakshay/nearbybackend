@@ -51,7 +51,7 @@ io.on("connection", (socket) => {
           "61f79790a1ca9046998104c6",
           {
             $push: {
-              message: data,
+              message: data.message,
             },
           }
           // { new: true },
@@ -87,5 +87,5 @@ io.on("connection", (socket) => {
 });
 
 server.listen(process.env.PORT || 5001, () => {
-  console.log("Port is running on 5000");
+  console.log("Port is running on 5001");
 });
