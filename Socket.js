@@ -26,6 +26,7 @@ io.on("connection", (socket) => {
         // io.sockets.in("61f79790a1ca9046998104c6").emit("messageFromOne", {
         //   message: message,
         // });
+        socket.join(createChat._id);
         io.sockets.in(createChat._id).emit("messageFromOne", {
           message: message,
         });
