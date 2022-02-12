@@ -122,6 +122,25 @@ router.get("/location/:id/:lon/:lat/:quantity", async (req, res) => {
   ]);
   res.status(200).send({ data });
 });
+router.get("/all/location/:id/:lon/:lat/:quantity", async (req, res) => {
+  const { lon, lat, id, quantity } = req.params;
+  const fl_lon = parseFloat(lon);
+  const fl_lat = parseFloat(lat);
+  console.log(fl_lon, fl_lat, "\n\n\n<<<<<<<<<<<<<");
+  const data = await USER.aggregate([
+    {
+      $geoNear: {
+        near: { type: "Point", coordinates: [fl_lon, fl_lat] },
+        distanceField: "dist.calculated",
+        //  maxDistance: 1000,
+        includeLocs: "dist.location",
+        spherical: true,
+      },
+    },
+    // { $limit: parseInt(quantity) },
+  ]);
+  res.status(200).send({ data });
+});
 
 // router.get("/location/:id/:lon/:lat", async (req, res) => {
 // const options = {
