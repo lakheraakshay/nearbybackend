@@ -118,6 +118,78 @@ router.get("/location/:id/:lon/:lat/:quantity", async (req, res) => {
         spherical: true,
       },
     },
+    // {$match:{"gender":"FEMALE"}},
+    // { $sort: { dist{}},
+    { $limit: parseInt(quantity) },
+  ]);
+  res.status(200).send({ data });
+});
+router.get(
+  "/filter/location/:id/:lon/:lat/:quantity/:gender/:from/:to",
+
+  async (req, res) => {
+    const { lon, lat, id, quantity, gender, from, to } = req.params;
+    console.log(req.params);
+    if (gender == "ALL") {
+      console.log("all");
+      const fl_lon = parseFloat(lon);
+      const fl_lat = parseFloat(lat);
+      console.log(fl_lon, fl_lat, "\n\n\n<<<<<<<<<<<<<");
+      const data = await USER.aggregate([
+        {
+          $geoNear: {
+            near: { type: "Point", coordinates: [fl_lon, fl_lat] },
+            distanceField: "dist.calculated",
+            //  maxDistance: 1000,
+            includeLocs: "dist.location",
+            spherical: true,
+          },
+        },
+        { $match: { age: { $gte: +from, $lte: +to } } },
+        // { $match: { gender: "FEMALE" } },
+        { $limit: parseInt(quantity) },
+      ]);
+      res.status(200).send({ data });
+    } else {
+      const fl_lon = parseFloat(lon);
+      const fl_lat = parseFloat(lat);
+      console.log(fl_lon, fl_lat, "\n\n\n<<<<<<<<<<<<<");
+      const data = await USER.aggregate([
+        {
+          $geoNear: {
+            near: { type: "Point", coordinates: [fl_lon, fl_lat] },
+            distanceField: "dist.calculated",
+            //  maxDistance: 1000,
+            includeLocs: "dist.location",
+            spherical: true,
+          },
+        },
+        { $match: { gender } },
+        { $match: { age: { $gte: +from, $lte: +to } } },
+        // { $match: { gender: "FEMALE" } },
+        { $limit: parseInt(quantity) },
+      ]);
+      res.status(200).send({ data });
+    }
+  }
+);
+router.get("/age/location/:id/:lon/:lat/:quantity/:age", async (req, res) => {
+  const { lon, lat, id, quantity, gender, age } = req.params;
+  const fl_lon = parseFloat(lon);
+  const fl_lat = parseFloat(lat);
+  console.log(fl_lon, fl_lat, "\n\n\n<<<<<<<<<<<<<");
+  const data = await USER.aggregate([
+    {
+      $geoNear: {
+        near: { type: "Point", coordinates: [fl_lon, fl_lat] },
+        distanceField: "dist.calculated",
+        //  maxDistance: 1000,
+        includeLocs: "dist.location",
+        spherical: true,
+      },
+    },
+    { $match: { age: { $gte: 90, $lte: 100 } } },
+    // { $match: { gender: "FEMALE" } },
     { $limit: parseInt(quantity) },
   ]);
   res.status(200).send({ data });
