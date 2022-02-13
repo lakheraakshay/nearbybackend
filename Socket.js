@@ -103,11 +103,11 @@ io.on("connection", (socket) => {
     // const messages = await MESSAGE.findById(data.messageId);
     const messages = await MESSAGE.findById(data.messageId);
     socket.join(data.messageId);
-    
+
     // // socket.join("61f79790a1ca9046998104c6");
     io.sockets.in(messageId).emit("initialMessage", data);
 
-    io.sockets.in("61f79790a1ca9046998104c6").emit("initialMessage", messages);
+    // io.sockets.in("61f79790a1ca9046998104c6").emit("initialMessage", messages);
   });
 });
 
