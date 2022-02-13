@@ -105,7 +105,7 @@ router.post("/login", async (req, res) => {
     const exist_user = await USER.findOne({ email });
     // console.log(exist_user)
     console.log(exist_user);
-    if (exist_user.length == 0) {
+    if (!exist_user) {
       res.status(200).send({ success: false, msg: "no userFound" });
     } else {
       res
