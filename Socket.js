@@ -25,10 +25,6 @@ io.on("connection", (socket) => {
           user_two: secondPerson,
           message,
         });
-        // io.sockets.in("61f79790a1ca9046998104c6").emit("messageFromOne", {
-        //   message: message,
-        // });
-
         await createChat.save();
         await USER_AUTH.findByIdAndUpdate(
           firstPerson,
@@ -51,7 +47,7 @@ io.on("connection", (socket) => {
         );
         socket.join(createChat._id);
         io.sockets.in(createChat._id).emit("messageFromOne", {
-          message: message,
+          message: { ...message, time: new Date() },
           messageId: createChat._id,
         });
       } else {
@@ -67,32 +63,10 @@ io.on("connection", (socket) => {
           },
           { new: true }
         );
-        // const modal = await MESSAGE.findByIdAndUpdate(
-        //   "61f79790a1ca9046998104c6",
-        //   {
-        //     $push: {
-        //       message: data.message,
-        //     },
-        //   }
-        //   // { new: true },
-        // );
         console.log(modal, "<<<<");
-        // const checkMsg = await MESSAGE.findByIdAndUpdate(
-        //   "61f79790a1ca9046998104c6",
-        //   {
-        //     // $push: { message },
-        //     $push: { message: "hello" },
-        //   },
-        //   { new: true }
-        // );
-        // console.log(checkMsg, "<<<check message");
-        // io.sockets.in(messageId).emit("messageFromOne", {
         io.sockets.in(messageId).emit("messageFromOne", {
-          message: { ...data },
+          message: { message, time: new Date() },
         });
-        // io.sockets.in("61f79790a1ca9046998104c6").emit("messageFromOne", {
-        //   message: { ...data },
-        // });
       }
     } catch (e) {
       console.log(e);
