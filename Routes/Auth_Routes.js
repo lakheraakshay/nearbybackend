@@ -98,17 +98,19 @@ router.post("/login/remove this", async (req, res) => {
     });
   }
 });
-router.get("/login/:email", async (req, res) => {
+router.get("/login", async (req, res) => {
   try {
-    const { email } = req.params;
+    const { email } = req.body;
     console.log(req.params);
     const exist_user = await USER.findOne({ email });
     // console.log(exist_user)
     console.log(exist_user);
-    if (exist_user.length==0) {
+    if (exist_user.length == 0) {
       res.status(200).send({ success: false, msg: "no userFound" });
     } else {
-      res.status(200).send({ success: true, msg: "User Found",user: exist_user });
+      res
+        .status(200)
+        .send({ success: true, msg: "User Found", user: exist_user });
     }
   } catch (e) {
     console.log(e);
