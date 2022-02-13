@@ -101,11 +101,11 @@ io.on("connection", (socket) => {
   socket.on("getPrivatePreviousChat", async (data) => {
     // console.log("Get Previous message");
     // const messages = await MESSAGE.findById(data.messageId);
-    // // const messages = await MESSAGE.findById("61f79790a1ca9046998104c6");
-    // socket.join(messageId);
+    const messages = await MESSAGE.findById(data.messageId);
+    socket.join(data.messageId);
     // // socket.join("61f79790a1ca9046998104c6");
     io.sockets.in(messageId).emit("initialMessage", data);
-    // io.sockets.in("61f79790a1ca9046998104c6").emit("initialMessage", messages);
+    io.sockets.in("61f79790a1ca9046998104c6").emit("initialMessage", messages);
   });
 });
 
