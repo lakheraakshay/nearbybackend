@@ -59,6 +59,23 @@ router.post("/send", async (req, res) => {
   }
 });
 
+router.patch("/check", async (req, res) => {
+  try {
+    await USER.findByIdAndUpdate(
+      "6208c7a81e2f78c16fa89746",
+      {
+        $push: {
+          chat: { secondPerson: "6208c80cc246f37b29cf66d9",},
+        },
+      },
+      { new: true }
+    );
+    // await USER.save();
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 router.get("/all/:id", async (req, res) => {
   try {
     const messages = await MESSAGE.findById(req.params.id);
