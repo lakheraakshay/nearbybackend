@@ -28,7 +28,7 @@ io.on("connection", (socket) => {
         // });
         socket.join(createChat._id);
         io.sockets.in(createChat._id).emit("messageFromOne", {
-          message: message,
+          message: message,firstPerson,secondPerson
         });
         await createChat.save();
         await USER.findByIdAndUpdate(
