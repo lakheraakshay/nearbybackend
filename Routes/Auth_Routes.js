@@ -102,7 +102,7 @@ router.get("/login/:email", async (req, res) => {
   try {
     const { email } = req.params;
     console.log(req.params);
-    const exist_user = await USER.find({ email });
+    const exist_user = await USER.findOne({ email });
     // console.log(exist_user)
     console.log(exist_user);
     if (exist_user.length==0) {
