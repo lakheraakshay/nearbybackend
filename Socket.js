@@ -52,7 +52,7 @@ io.on("connection", (socket) => {
         socket.join(createChat._id);
         io.sockets.in(createChat._id).emit("messageFromOne", {
           message: message,
-          isPrevChat: false,
+          messageId: createChat._id,
         });
       } else {
         console.log("else one to one chata");
