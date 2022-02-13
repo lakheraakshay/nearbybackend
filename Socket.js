@@ -26,11 +26,7 @@ io.on("connection", (socket) => {
         // io.sockets.in("61f79790a1ca9046998104c6").emit("messageFromOne", {
         //   message: message,
         // });
-        socket.join(createChat._id);
-        io.sockets.in(createChat._id).emit("messageFromOne", {
-          message: message,
-          isPrevChat: false,
-        });
+       
         await createChat.save();
         await USER.findByIdAndUpdate(
           firstPerson,
@@ -51,6 +47,11 @@ io.on("connection", (socket) => {
           },
           { new: true }
         );
+        socket.join(createChat._id);
+        io.sockets.in(createChat._id).emit("messageFromOne", {
+          message: message,
+          isPrevChat: false,
+        });
       } else {
         console.log("else one to one chata");
         // socket.join("61f79790a1ca9046998104c6");
