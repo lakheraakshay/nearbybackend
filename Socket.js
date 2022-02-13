@@ -1,9 +1,11 @@
 const express = require("express");
 const app = require("./index");
+const USER_AUTH = require("./Schema/AuthSchema");
 // const passport = require('passport');
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 const MESSAGE = require("./Schema/MESSAGE");
+// const USER =require("./Schema/AuthSchema")
 io.on("connection", (socket) => {
   socket.on("connection", () => {
     console.log("connection reveived");
@@ -26,9 +28,9 @@ io.on("connection", (socket) => {
         // io.sockets.in("61f79790a1ca9046998104c6").emit("messageFromOne", {
         //   message: message,
         // });
-       
+
         await createChat.save();
-        await USER.findByIdAndUpdate(
+        await USER_AUTH.findByIdAndUpdate(
           firstPerson,
           {
             $push: {
@@ -38,7 +40,7 @@ io.on("connection", (socket) => {
           { new: true }
         );
 
-        await USER.findByIdAndUpdate(
+        await USER_AUTH.findByIdAndUpdate(
           secondPerson,
           {
             $push: {
