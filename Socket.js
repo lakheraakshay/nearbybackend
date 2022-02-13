@@ -65,7 +65,7 @@ io.on("connection", (socket) => {
         );
         console.log(modal, "<<<<");
         io.sockets.in(messageId).emit("messageFromOne", {
-          message: { message, time: new Date() },
+          message: { ...message, time: new Date() },
         });
       }
     } catch (e) {
