@@ -105,7 +105,7 @@ io.on("connection", (socket) => {
     socket.join(data.messageId);
 
     // // socket.join("61f79790a1ca9046998104c6");
-    io.sockets.in(messageId).emit("initialMessage", data);
+    io.sockets.in(data.messageId).emit("initialMessage", messages);
 
     // io.sockets.in("61f79790a1ca9046998104c6").emit("initialMessage", messages);
   });
