@@ -24,17 +24,17 @@ router.get("/message_id/:curr_user/:other_user", async (req, res) => {
     let findIt = 5;
     const user = await USER.findById(curr_user);
     const filterit = user.chat.find((item) => item.secondPerson == other_user);
-    if (filterit == undefined) {
+    console.log(filterit);
+    if (filterit == undefined || filterit == null) {
       res.status(200).send({ success: true, messageId: null });
     } else {
       const messages = await MESSAGE.findById(filterit.message);
-      res
-        .status(200)
-        .send({
-          success: true,
-          messageId: filterit.message,
-          messages: messages.message,
-        });
+      console.log(messages,"<<< 32 ");
+      res.status(200).send({
+        success: true,
+        messageId: filterit.message,
+        messages: messages.message,
+      });
     }
     // console.log(filterit);
   } catch (e) {

@@ -56,7 +56,7 @@ router.post("/signup", async (req, res) => {
       success: false,
       msg: "Error !! Try again later",
       error: e,
-      bodyData:req.body
+      bodyData: req.body,
     });
   }
 });
@@ -98,10 +98,12 @@ router.post("/login/remove this", async (req, res) => {
     });
   }
 });
-router.post("/login/:email", async (req, res) => {
+router.get("/login/:email", async (req, res) => {
   try {
     const { email } = req.params;
+    console.log(req.params);
     const exist_user = await USER.find({ email });
+    // console.log(exist_user)
     if (exist_user.length) {
       res.status(200).send({
         success: true,
@@ -121,7 +123,6 @@ router.post("/login/:email", async (req, res) => {
     console.log(e);
   }
 });
-
 
 router.get("/", async (req, res) => {
   const all = await user.find();
@@ -148,7 +149,7 @@ router.get("/", async (req, res) => {
 
 router.patch("/update/:user_id", async (req, res) => {
   try {
-    const {data} = req.body;
+    const { data } = req.body;
     console.log(req.params);
     const updated_user = await USER.findByIdAndUpdate(
       req.params.user_id,
