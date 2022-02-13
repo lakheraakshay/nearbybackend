@@ -124,8 +124,7 @@ router.get("/location/:id/:lon/:lat/:quantity", async (req, res) => {
   ]);
   res.status(200).send({ data });
 });
-router.get(
-  "/filter/location/:id/:lon/:lat/:quantity/:gender/:from/:to",
+router.get("/filter/location/:id/:lon/:lat/:quantity/:gender/:from/:to",
 
   async (req, res) => {
     const { lon, lat, id, quantity, gender, from, to } = req.params;
@@ -147,7 +146,7 @@ router.get(
         },
         { $match: { age: { $gte: +from, $lte: +to } } },
         // { $match: { gender: "FEMALE" } },
-        { $limit: parseInt(quantity) },
+        // { $limit: parseInt(quantity) },
       ]);
       res.status(200).send({ data });
     } else {
@@ -167,7 +166,7 @@ router.get(
         { $match: { gender } },
         { $match: { age: { $gte: +from, $lte: +to } } },
         // { $match: { gender: "FEMALE" } },
-        { $limit: parseInt(quantity) },
+        // { $limit: parseInt(quantity) },
       ]);
       res.status(200).send({ data });
     }
