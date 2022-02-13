@@ -104,20 +104,11 @@ router.get("/login/:email", async (req, res) => {
     console.log(req.params);
     const exist_user = await USER.find({ email });
     // console.log(exist_user)
-    if (exist_user.length) {
-      res.status(200).send({
-        success: true,
-        msg: "getting data to check",
-        exist_user,
-        email,
-      });
+    console.log(exist_user);
+    if (exist_user.length==0) {
+      res.status(200).send({ success: false, msg: "no userFound" });
     } else {
-      res.status(200).send({
-        success: false,
-        msg: "User Does Not Exists!!",
-        email,
-        exist_user,
-      });
+      res.status(200).send({ success: true, msg: "User Found",user: exist_user });
     }
   } catch (e) {
     console.log(e);
