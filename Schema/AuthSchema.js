@@ -73,7 +73,7 @@ const authSchema = mongoose.Schema({
     coordinates: { type: [Number] },
   },
 });
-// authSchema.index({ location: "2dsphere" });
+authSchema.index({ location_3: "2dsphere" });
 // authSchema.createIndex({ location: "2dsphere" });
 // mongoose.authSchema.createIndex({ location: "2dsphere" });
 const USER_AUTH = mongoose.model("USER", authSchema);
